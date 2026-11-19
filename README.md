@@ -3,7 +3,29 @@
 記事、現地写真、取材姿勢、プロフィールを公開するWebサイト。
 Astroの静的生成、microCMS、Cloudflare Pagesを採用する想定です。
 
-現在は設計・リポジトリ整理の段階です。アプリケーションの実装、パッケージ導入、外部サービスの設定はまだ行っていません。
+Astroのローカル開発環境と静的ビルドを用意しています。現在の画面は起動確認用です。記事ページ・microCMS接続・外部サービスの設定は未実施です。
+
+## ローカル起動
+
+Node.js 26.13.0、pnpm 11.6.0を使用します。miseを使う場合は `mise trust` と `mise install` で、このリポジトリの `mise.toml` を有効にします。miseを使わない場合も同じバージョンを用意してください。
+
+```sh
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+表示先は `http://localhost:4321` です。CMSの認証情報がなくても起動できます。
+`.env.example` は将来の接続用テンプレートです。CMS接続を実装する際に `.env` へコピーし、値を設定します。現時点でCMS通信は発生しません。
+
+```sh
+pnpm lint       # JS・TS・JSON・CSS等の検査
+pnpm typecheck  # Astroを含む型検査
+pnpm build      # 型検査後にdist/へ静的生成
+pnpm preview    # 生成結果をローカル確認
+```
+
+BiomeではAstroファイルの検査を行わず、`astro check` で型検査します。自動テストはまだ導入していません。
+Cloudflare Pagesはビルドコマンド `pnpm build`、出力先 `dist`、Node.js 26.13.0を設定する想定です。現時点の起動確認ページには `noindex` を付けています。本番サイト実装時にSEO設定を整えます。
 
 ## ドキュメント
 
@@ -21,7 +43,7 @@ Astroの静的生成、microCMS、Cloudflare Pagesを採用する想定です。
 - `docs/`: プロジェクトの設計・運用資料
 - `tasks/`: 作業記録
 - `.github/`: Issue・PRテンプレート、リポジトリ運用設定
-- `biome.jsonc`: 実装開始時に採用可否・バージョンを確認する設定雛形
+- `biome.jsonc`: Biomeの検査・整形設定
 
-`src/`、Astro設定、パッケージ定義は実装開始時に追加します。
-既存のGitHub設定は維持します。CI雛形は未有効化、Dependabotの自動マージは必須チェック未設定により停止しています。
+`src/` に起動確認ページ、ルートにAstro・TypeScript・miseの設定を配置しています。依存関係は `pnpm-lock.yaml` で固定します。
+GitHub ActionsのCIは依存導入・lint・型検査・ビルドを行う構成です。実際のActions実行はpush後に確認します。Dependabotの自動マージは停止状態を維持しています。

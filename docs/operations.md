@@ -13,11 +13,11 @@
 | 項目 | 予定値 |
 | --- | --- |
 | 生成方式 | Astro SSG |
-| ビルドコマンド | `npm run build`（npm採用時） |
+| ビルドコマンド | `pnpm build` |
 | 出力先 | `dist` |
 | ビルド元 | GitHubの本番用ブランチ。名称は設定時に確認 |
 
-パッケージマネージャーとNode.jsのバージョンを決め、ローカル・CI・Pagesでそろえます。
+pnpm 11.6.0とNode.js 26.13.0を使用します。ローカルは `mise.toml`、CIは `package.json` と `.node-version` を参照します。Pagesにも同じバージョンを設定し、実際のビルドログで一致を確認します。
 静的サイトとして配信し、SSRやPages Functionsは初期構成に含めません。
 
 ## ビルド時の環境変数
@@ -28,7 +28,7 @@
 | MICROCMS_API_KEY | Content APIの読み取りキー | シークレットとして管理 |
 | SITE_URL | 公開サイトの絶対URL | canonical・OGPなどに使用 |
 
-実装時に値を含まない `.env.example` を追加します。キーに `PUBLIC_` を付けず、成果物・ログ・Gitに含めません。
+値を含まない `.env.example` を配置しています。CMS取得処理は未実装です。キーに `PUBLIC_` を付けず、成果物・ログ・Gitに含めません。
 プレビュー環境と本番環境の変数は、それぞれ設定・確認します。
 
 ## Webhook

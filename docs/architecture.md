@@ -3,7 +3,7 @@
 ## 目的と前提
 
 非エンジニアのジャーナリストがmicroCMSで記事や写真を更新し、読者・編集者が実績や取材姿勢を確認できるサイトを作ります。
-Astroで静的生成し、Cloudflare Pagesから配信する方針です。実装は未着手です。
+Astroで静的生成し、Cloudflare Pagesから配信する方針です。起動確認用のAstro環境を構築済みです。各ページとCMS取得処理は未実装です。
 
 ## 全体構成
 
@@ -76,7 +76,7 @@ package.json
 - 外部掲載記事へのリンクが必要か。必要なら `reports` にURLフィールドを追加。
 - 公開する連絡先とSignal・PGP案内の範囲。
 - ドメイン、GitHub連携先、Cloudflare・microCMSの管理者。
-- Node.js、Astro、パッケージマネージャーのバージョン。
+開発環境はNode.js 26.13.0、Astro 7.4.13、pnpm 11.6.0を採用しています。
 
 ## 参考
 

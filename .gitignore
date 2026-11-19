@@ -63,3 +63,6 @@ tmp/
 
 # ツール生成物
 .codegraph/
+
+# プロジェクトの作業一覧を共有
+!tasks/todo.md

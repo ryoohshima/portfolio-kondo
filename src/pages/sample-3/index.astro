@@ -1,0 +1,52 @@
+---
+import SampleLayout from "../../layouts/SampleLayout.astro";
+import { biography, reports } from "../../data/reports";
+const [latest, saltivka, night] = reports;
+---
+<SampleLayout title="案3 / Field Archive" number={3} theme="gallery">
+  <div class="archive-layout wrap">
+    <aside class="author-rail" aria-label="プロフィールとナビゲーション">
+      <p class="small-label">JOURNALIST / WRITER</p>
+      <h1>RYOSUKE<br />KONDO<span>.</span></h1>
+      <h2 class="serif">ウクライナから、<br />戦争と暮らしを記す。</h2>
+      <nav aria-label="ページ内ナビゲーション"><a href="#work">取材の記録 <span aria-hidden="true">↗</span></a><a href="#about">プロフィール <span aria-hidden="true">↗</span></a><a href="#contact">お問い合わせ <span aria-hidden="true">↗</span></a></nav>
+      <div id="about" class="rail-profile"><p class="small-label">ABOUT</p><p>{biography}</p></div>
+    </aside>
+    <section id="work" class="archive" aria-labelledby="archive-heading">
+      <div class="archive-heading"><h2 id="archive-heading">FIELD ARCHIVE</h2><p>ウクライナ / 取材の記録</p></div>
+      <article class="lead-story"><figure><div class="photo-window"><img src={latest.image} width="1280" height="670" alt={latest.alt} fetchpriority="high" /></div></figure><div class="lead-caption"><p class="meta">{latest.series}<br />{latest.date} / {latest.location}</p><h3 class="serif">{latest.title}</h3></div></article>
+      <div class="archive-grid"><article class="archive-story"><figure><div class="photo-window"><img src={saltivka.image} width="1280" height="670" alt={saltivka.alt} loading="lazy" /></div></figure><p class="meta">{saltivka.series} / {saltivka.date}</p><h3 class="serif">{saltivka.title}</h3><p class="place">{saltivka.location}</p></article><article class="archive-story offset-story"><figure><div class="photo-window"><img src={night.image} width="1280" height="670" alt={night.alt} loading="lazy" /></div></figure><p class="meta">{night.series} / {night.date}</p><h3 class="serif">{night.title}</h3><p class="place">{night.location}</p></article></div>
+      <div class="archive-statement"><p class="small-label">FROM THE FIELD</p><p class="serif">遠くの出来事を、<br />誰かの日常として見つめる。</p></div>
+    </section>
+  </div>
+</SampleLayout>
+<style>
+  :global(.gallery .site-header) { display:none; }
+  .archive-layout { display:grid; grid-template-columns:270px minmax(0,1fr); gap:70px; align-items:start; padding-top:55px; }
+  .author-rail { position:sticky; top:30px; }
+  .author-rail h1 { font-size:clamp(40px,4vw,56px); line-height:1.05; font-weight:500; letter-spacing:-.045em; margin:25px 0 32px; }
+  .author-rail h1 span { color:var(--accent); }
+  .author-rail h2 { font-size:21px; line-height:1.9; letter-spacing:.02em; }
+  .author-rail nav { display:grid; gap:0; margin-top:38px; }
+  .author-rail nav a { display:flex; justify-content:space-between; padding:13px 0; border-bottom:1px solid var(--line); font-size:11px; }
+  .author-rail nav a span { transition:transform .3s var(--ease-editorial); }
+  .author-rail nav a:is(:hover,:focus-visible) span { transform:translate(3px,-3px); }
+  .rail-profile { margin-top:42px; scroll-margin-top:30px; }
+  .rail-profile>p:last-child { color:var(--muted); font-size:11px; line-height:2.15; margin-top:16px; }
+  .archive-heading { display:flex; justify-content:space-between; align-items:baseline; gap:20px; padding-bottom:20px; border-bottom:1px solid var(--line); margin-bottom:25px; }
+  .archive-heading h2 { font-size:13px; letter-spacing:.15em; font-weight:500; } .archive-heading>p { font-size:10px; color:var(--muted); }
+  .lead-story img { height:460px; }
+  .lead-caption { display:grid; grid-template-columns:145px 1fr; gap:35px; padding:25px 0 45px; }
+  .lead-caption .meta { font-size:10px; line-height:2; }
+  .lead-caption h3 { font-size:30px; line-height:1.7; }
+  .archive-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; padding-top:12px; }
+  .archive-story img { height:350px; } .offset-story { padding-top:110px; } .offset-story img { height:240px; }
+  .archive-story .meta { font-size:9px; margin-top:20px; } .archive-story h3 { font-size:24px; line-height:1.8; margin-top:12px; } .place { font-size:10px; color:var(--muted); margin-top:15px; }
+  .archive-statement { padding:55px 0; margin-top:65px; border-top:1px solid var(--line); } .archive-statement>.serif { font-size:32px; line-height:1.9; margin-top:22px; }
+  :global(.gallery .site-footer) { padding-left:340px; }
+  @media(prefers-reduced-motion:no-preference) { .author-rail { animation:editorial-enter .9s var(--ease-editorial) both; } .lead-story .photo-window { animation:photo-unveil 1.3s var(--ease-editorial) both; } @supports(animation-timeline:view()) { .archive-grid .photo-window { animation:photo-unveil 1ms linear both; animation-timeline:view(); animation-range:entry 0% entry 85%; } } }
+  @media(max-width:1100px) { .archive-layout { grid-template-columns:230px minmax(0,1fr); gap:40px; } .lead-caption { grid-template-columns:1fr; gap:12px; } .lead-caption h3 { font-size:28px; } .archive-grid { gap:24px; } :global(.gallery .site-footer) { padding-left:270px; } }
+  @media(max-width:800px) { .archive-layout { grid-template-columns:1fr; gap:45px; padding-top:30px; } .author-rail { position:static; display:grid; grid-template-columns:1fr 1fr; gap:0 32px; } .author-rail>.small-label { grid-column:1/-1; } .author-rail h1 { font-size:46px; margin:20px 0; } .author-rail h2 { align-self:center; font-size:20px; } .author-rail nav { grid-column:1/-1; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:15px; } .rail-profile { grid-column:1/-1; margin-top:25px; } .rail-profile>p:last-child { max-width:50em; } .lead-story img { height:350px; } :global(.gallery .site-footer) { padding-left:0; } }
+  @media(max-width:500px) { .author-rail { grid-template-columns:1fr; } .author-rail h1 { font-size:48px; } .author-rail h2 { font-size:20px; } .author-rail nav { gap:15px; margin-top:20px; } .author-rail nav a { font-size:10px; gap:6px; } .rail-profile { margin-top:24px; } .archive-heading { flex-wrap:wrap; gap:8px; } .lead-story img { height:280px; } .lead-caption h3 { font-size:27px; } .archive-grid { grid-template-columns:1fr; gap:35px; } .archive-story img { height:330px; } .offset-story { padding-top:0; } .offset-story img { height:240px; } .archive-statement { margin-top:45px; padding:35px 0 0; } .archive-statement>.serif { font-size:25px; } }
+  @media(prefers-reduced-motion:reduce) { .author-rail nav a span { transition:none; transform:none; } }
+</style>

@@ -9,8 +9,7 @@
       "**/*.ts",
       "**/*.json",
       "**/*.jsonc",
-      "**/*.css",
-      "**/*.astro"
+      "**/*.css"
     ]
   },
   "formatter": { "indentStyle": "space" },

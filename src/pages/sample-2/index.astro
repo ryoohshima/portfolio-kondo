@@ -1,0 +1,53 @@
+---
+import SampleLayout from "../../layouts/SampleLayout.astro";
+import { biography, reports } from "../../data/reports";
+const [latest] = reports;
+---
+<SampleLayout title="案2 / Cover Story" number={2} theme="paper">
+  <section class="cover" aria-labelledby="cover-heading">
+    <div class="photo-window cover-image"><img src={latest.image} width="1280" height="670" alt={latest.alt} fetchpriority="high" /></div>
+    <div class="cover-shade" aria-hidden="true"></div>
+    <div class="cover-content">
+      <p class="cover-kicker">REPORTAGE / UKRAINE</p>
+      <h1 class="serif" id="cover-heading">戦争のなかにある、<br />日常を見つめて。</h1>
+      <div class="cover-bottom"><p>警報が鳴らない午後にも、<br />伝えるべき物語がある。</p><a href="#work">取材の記録へ <span aria-hidden="true">↗</span></a></div>
+    </div>
+    <p class="photo-caption">ハルキウの公園 / ウクライナルポ #16</p>
+  </section>
+  <section id="work" class="stories wrap">
+    <div class="stories-heading"><h2>REPORTAGE</h2><p>ウクライナからの報告</p></div>
+    <div class="story-list">{reports.map(report => <article class="story-row"><div class="story-meta"><p>{report.series}</p><span>{report.date}</span></div><div class="story-title"><h3 class="serif">{report.title}</h3><p>{report.location}</p></div><div class="photo-window"><img src={report.image} width="1280" height="670" alt={report.alt} loading="lazy" /></div></article>)}</div>
+  </section>
+  <section id="about" class="profile wrap"><div class="profile-name"><p class="small-label">THE JOURNALIST</p><h2>RYOSUKE<br />KONDO<span>.</span></h2></div><div class="profile-text"><h3 class="serif">見たことを、書く。<br />出会った声を、届ける。</h3><p>{biography}</p></div></section>
+</SampleLayout>
+<style>
+  .cover { position:relative; margin-inline:24px; min-height:650px; color:#fff; background:#18201d; }
+  .cover-image { position:absolute; inset:0; }
+  .cover-image img { height:100%; }
+  .cover-shade { position:absolute; inset:0; background:linear-gradient(90deg, rgb(8 14 12 / .78),rgb(8 14 12 / .18) 80%),linear-gradient(0deg,rgb(8 14 12 / .65),transparent 65%); pointer-events:none; }
+  .cover-content { position:relative; width:min(1280px,calc(100% - 96px)); margin:auto; padding:55px 0 85px; }
+  .cover-kicker { font-size:11px; letter-spacing:.18em; }
+  h1 { font-size:clamp(40px,5.2vw,76px); line-height:1.6; letter-spacing:.02em; margin:70px 0 45px; }
+  .cover-bottom { display:flex; justify-content:space-between; align-items:end; gap:30px; }
+  .cover-bottom p { font-size:14px; line-height:2; }
+  .cover-bottom a { display:flex; gap:75px; align-items:center; padding:12px 0; border-bottom:1px solid rgb(255 255 255 / .7); font-size:12px; }
+  .cover-bottom a:is(:hover,:focus-visible) { color:#fff; border-color:#fff; }
+  .cover-bottom a span { transition:transform .3s ease; }
+  .cover-bottom a:hover span { transform:translate(4px,-4px); }
+  .photo-caption { position:absolute; bottom:20px; right:32px; font-size:10px; color:#fff; }
+  .stories { margin-top:75px; }
+  .stories-heading { display:flex; align-items:baseline; gap:30px; padding-bottom:24px; border-bottom:2px solid var(--ink); }
+  .stories-heading h2 { font-size:clamp(28px,4.5vw,56px); line-height:1.1; font-weight:500; letter-spacing:-.04em; }
+  .stories-heading p { color:var(--muted); font-size:12px; }
+  .story-row { display:grid; grid-template-columns:150px 1fr 240px; align-items:center; gap:32px; padding:30px 0; border-bottom:1px solid var(--line); }
+  .story-meta p { font-size:11px; } .story-meta span { display:block; font-size:10px; color:var(--muted); margin-top:8px; }
+  .story-title h3 { font-size:clamp(22px,2.3vw,31px); line-height:1.7; } .story-title>p { font-size:11px; color:var(--muted); margin-top:12px; }
+  .story-row img { height:145px; }
+  .profile { display:grid; grid-template-columns:1fr 1fr; gap:80px; padding-top:55px; margin-top:90px; border-top:2px solid var(--ink); }
+  .profile-name h2 { font-size:clamp(36px,5vw,64px); font-weight:500; line-height:1.1; letter-spacing:-.04em; margin-top:25px; } .profile-name h2 span { color:var(--accent); }
+  .profile-text h3 { font-size:30px; line-height:1.8; margin-bottom:24px; } .profile-text>p { font-size:13px; line-height:2.2; max-width:38em; color:var(--muted); }
+  @media(prefers-reduced-motion:no-preference) { .cover-content { animation:editorial-enter 1s var(--ease-editorial) both; } .cover-image { animation:photo-unveil 1.3s var(--ease-editorial) both; } }
+  @media(max-width:1000px) { .story-row { grid-template-columns:120px 1fr 180px; gap:24px; } .cover { min-height:600px; } .profile { gap:40px; } }
+  @media(max-width:700px) { .cover { margin-inline:0; min-height:590px; } .cover-content { width:calc(100% - 36px); padding-top:35px; } h1 { font-size:clamp(26px,6.7vw,43px); margin:85px 0 40px; line-height:1.8; } .cover-bottom { align-items:start; flex-direction:column; gap:25px; } .cover-bottom p { font-size:12px; } .cover-bottom a { gap:60px; } .photo-caption { right:18px; font-size:9px; bottom:15px; } .stories { margin-top:45px; } .stories-heading { flex-direction:column; gap:14px; } .story-row { grid-template-columns:1fr 115px; gap:16px; padding-block:25px; } .story-meta { grid-column:1/-1; display:flex; gap:20px; align-items:center; } .story-meta span { margin:0; } .story-title h3 { font-size:21px; } .story-row img { height:135px; } .profile { grid-template-columns:1fr; gap:30px; margin-top:50px; padding-top:30px; } .profile-name h2 { font-size:46px; } .profile-text h3 { font-size:26px; } }
+  @media(prefers-reduced-motion:reduce) { .cover-bottom a span { transition:none; transform:none; } }
+</style>
